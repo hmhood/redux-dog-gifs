@@ -12,7 +12,15 @@ const initialState = {
 // Reducer
 
 const gifReducer = (state = initialState, action) => {
-  // ...fill in your Reducer code here
+  switch(action.type) {
+    case ADD_PUP:
+      const newPupArray = state.pups.concat(action.newPup)
+      return Object.assign({}, state, {
+        pups: newPupArray
+      })
+    default:
+      return state
+  }
 }
 
 // JS to access new pup form
@@ -45,3 +53,16 @@ const store = createStore(gifReducer);
 
 // Renders list of gifs to page
 const gifList = document.getElementById('gif-list')
+
+const render = () => {
+  let newGifList = '' 
+  console.log(store.getState().pups)
+  store.getState().pups.forEach(function(pup) {
+    newGifList += `<div><img src=${pup.url}></div><p>Rating: ${pup.rating}</p>`
+  })
+  gifList.innerHTML = newGifList
+  
+}
+
+render()
+store.subscribe(render)
