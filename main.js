@@ -33,6 +33,13 @@ const ADD_PUP = 'ADD_PUP'
 
 // Submits form and dispatches add action
 
+const addPuptoList = (newPup) => {
+  return {
+    type: ADD_PUP,
+    newPup: newPup
+  }
+}
+
 newPupForm.addEventListener('submit', () => {
   event.preventDefault();
   const gifUrl = document.getElementById('gif-url').value
@@ -40,12 +47,7 @@ newPupForm.addEventListener('submit', () => {
   document.getElementById('gif-url').value = ''
   document.getElementById('gif-rating').value = ''
   const newPup = { url: gifUrl, rating: gifRating }
-  store.dispatch(
-    {
-      type: ADD_PUP,
-      newPup: newPup
-    }
-  )
+  store.dispatch(addPuptoList(newPup))
 })
 
 // Sets up store
@@ -56,12 +58,10 @@ const gifList = document.getElementById('gif-list')
 
 const render = () => {
   let newGifList = '' 
-  console.log(store.getState().pups)
-  store.getState().pups.forEach(function(pup) {
-    newGifList += `<div><img src=${pup.url}></div><p>Rating: ${pup.rating}</p>`
+  store.getState().pups.forEach((pup) => {
+    newGifList += `<div><img src=${pup.url}><p>Rating: ${pup.rating}</p></div>`
   })
   gifList.innerHTML = newGifList
-  
 }
 
 render()
